@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Fortune Weather App - Real-time Weather Forecast for Nigeria & Worldwide</title>
+    <meta name="description" content="Fortune Weather App provides accurate real-time weather forecasts for Nigerian cities and locations worldwide. Get current conditions, 5-day forecasts, and detailed weather information.">
+    <meta name="keywords" content="fortune weather app, nigeria weather, lagos weather, abuja weather, weather forecast nigeria, real-time weather, weather app, nigerian weather forecast">
+    <meta name="author" content="Fortune">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags (for social media sharing) -->
+    <meta property="og:title" content="Fortune Weather App - Real-time Weather Forecast">
+    <meta property="og:description" content="Get accurate weather forecasts for Nigeria and worldwide. Real-time updates, 5-day forecasts, and detailed weather information.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fortuneweatherapp.netlify.app/">
+    <meta property="og:image" content="https://fortuneweatherapp.netlify.app/preview.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fortune Weather App - Real-time Weather Forecast">
+    <meta name="twitter:description" content="Get accurate weather forecasts for Nigeria and worldwide.">
+    <meta name="twitter:image" content="https://fortuneweatherapp.netlify.app/preview.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌦️</text></svg>">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fortuneweatherapp.netlify.app/">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Structured Data (JSON-LD for SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Fortune Weather App",
+      "description": "Real-time weather forecast application for Nigeria and worldwide",
+      "url": "https://fortuneweatherapp.netlify.app/",
+      "applicationCategory": "Weather",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Fortune"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌦️ Fortune Weather App</h1>
+            <p>Real-time weather information for Nigeria and worldwide</p>
+            <p class="tagline">Powered by Fortune - Your trusted weather companion</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-tabs">
+                <button class="tab-btn active" data-tab="city" aria-label="Search by city name">Search by City</button>
+                <button class="tab-btn" data-tab="coordinates" aria-label="Search by coordinates">Search by Coordinates</button>
+                <button class="tab-btn" data-tab="nigeria" aria-label="Search Nigerian cities">Nigerian Cities</button>
+            </div>
+
+            <div class="search-content active" id="city-search">
+                <div class="input-group">
+                    <input type="text" id="cityInput" placeholder="Enter city name (e.g., Lagos, Abuja)" aria-label="City name input">
+                    <input type="text" id="countryInput" placeholder="Country code (optional, e.g., NG)" aria-label="Country code input">
+                    <button class="search-btn" onclick="searchByCity()" aria-label="Search weather">Search</button>
+                </div>
+            </div>
+
+            <div class="search-content" id="coordinates-search">
+                <div class="input-group">
+                    <input type="text" id="latInput" placeholder="Latitude (e.g., 6.5244)" aria-label="Latitude input">
+                    <input type="text" id="lonInput" placeholder="Longitude (e.g., 3.3792)" aria-label="Longitude input">
+                    <button class="search-btn" onclick="searchByCoordinates()" aria-label="Search by coordinates">Search</button>
+                </div>
+            </div>
+
+            <div class="search-content" id="nigeria-search">
+                <div class="input-group">
+                    <select id="nigeriaSelect" aria-label="Select Nigerian city">
+                        <option value="">Select a Nigerian city</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Abuja">Abuja</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Ibadan">Ibadan</option>
+                        <option value="Port Harcourt">Port Harcourt</option>
+                        <option value="Benin City">Benin City</option>
+                        <option value="Kaduna">Kaduna</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="Aba">Aba</option>
+                        <option value="Onitsha">Onitsha</option>
+                        <option value="Warri">Warri</option>
+                        <option value="Jos">Jos</option>
+                        <option value="Calabar">Calabar</option>
+                        <option value="Maiduguri">Maiduguri</option>
+                        <option value="Akure">Akure</option>
+                    </select>
+                    <button class="search-btn" onclick="searchNigerianCity()" aria-label="Get weather for selected city">Get Weather</button>
+                </div>
+                <div class="quick-cities">
+                    <span style="color: #666; font-weight: bold;">Quick Access:</span>
+                    <div class="city-chip" onclick="quickSearch('Lagos')" role="button" tabindex="0">Lagos</div>
+                    <div class="city-chip" onclick="quickSearch('Abuja')" role="button" tabindex="0">Abuja</div>
+                    <div class="city-chip" onclick="quickSearch('Kano')" role="button" tabindex="0">Kano</div>
+                    <div class="city-chip" onclick="quickSearch('Port Harcourt')" role="button" tabindex="0">Port Harcourt</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="weatherDisplay"></div>
+
+        <footer>
+            <p>&copy; 2025 Fortune Weather App. All rights reserved.</p>
+            <p>Data provided by OpenWeatherMap API</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
