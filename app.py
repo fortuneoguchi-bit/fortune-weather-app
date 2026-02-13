@@ -17,8 +17,11 @@ CORS(app)
 API_KEY = os.environ.get('OPENWEATHER_API_KEY', '49914b80874f44e48ec15a7026a654a4')
 BASE_URL = 'https://api.openweathermap.org/data/2.5'
 
-# Database path
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'weather_users.db')
+# Use /tmp on Vercel (serverless has read-only filesystem), local file otherwise
+if os.environ.get('VERCEL'):
+    DB_PATH = '/tmp/weather_users.db'
+else:
+    DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'weather_users.db')
 
 # ─── Database Helpers ────────────────────────────────────────────────
 
