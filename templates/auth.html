@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Weather App - Sign In</title>
+    <meta name="description" content="Sign in or create an account to access Fortune Weather App's real-time weather forecasts.">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌦️</text></svg>">
+    <meta name="theme-color" content="#667eea">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <!-- Floating weather icons background -->
+        <div class="floating-icons">
+            <span class="float-icon" style="--delay: 0s; --x: 10%; --size: 2rem;">🌤️</span>
+            <span class="float-icon" style="--delay: 2s; --x: 25%; --size: 1.5rem;">⛅</span>
+            <span class="float-icon" style="--delay: 4s; --x: 50%; --size: 2.5rem;">🌧️</span>
+            <span class="float-icon" style="--delay: 1s; --x: 70%; --size: 1.8rem;">❄️</span>
+            <span class="float-icon" style="--delay: 3s; --x: 85%; --size: 2rem;">⚡</span>
+            <span class="float-icon" style="--delay: 5s; --x: 40%; --size: 1.6rem;">🌈</span>
+        </div>
+
+        <div class="auth-card">
+            <!-- Logo / Brand -->
+            <div class="auth-brand">
+                <div class="auth-logo">🌦️</div>
+                <h1>Fortune Weather</h1>
+                <p class="auth-subtitle">Your trusted weather companion</p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {% if category == 'error' %}❌{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="signin" id="signinTab">Sign In</button>
+                <button class="auth-tab" data-tab="signup" id="signupTab">Sign Up</button>
+                <div class="tab-indicator" id="tabIndicator"></div>
+            </div>
+
+            <!-- Sign In Form -->
+            <form class="auth-form active" id="signin-form" action="/auth/signin" method="POST">
+                <div class="form-group">
+                    <label for="signin-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="signin-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="signin-password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('signin-password', this)">👁️</button>
+                    </div>
+                </div>
+                <button type="submit" class="auth-submit-btn">
+                    <span>Sign In</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <p class="auth-switch">
+                    Don't have an account? <a href="#" onclick="switchTab('signup')">Create one</a>
+                </p>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form class="auth-form" id="signup-form" action="/auth/signup" method="POST">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="signup-name" name="name" placeholder="Enter your name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="signup-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="signup-password" name="password" placeholder="Min. 6 characters" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePassword('signup-password', this)">👁️</button>
+                    </div>
+                </div>
+                <button type="submit" class="auth-submit-btn">
+                    <span>Create Account</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <p class="auth-switch">
+                    Already have an account? <a href="#" onclick="switchTab('signin')">Sign in</a>
+                </p>
+            </form>
+        </div>
+
+        <footer class="auth-footer">
+            <p>&copy; 2025 Fortune Weather App. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tab) {
+            const signinTab = document.getElementById('signinTab');
+            const signupTab = document.getElementById('signupTab');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const indicator = document.getElementById('tabIndicator');
+
+            if (tab === 'signup') {
+                signinTab.classList.remove('active');
+                signupTab.classList.add('active');
+                signinForm.classList.remove('active');
+                signupForm.classList.add('active');
+                indicator.style.transform = 'translateX(100%)';
+            } else {
+                signupTab.classList.remove('active');
+                signinTab.classList.add('active');
+                signupForm.classList.remove('active');
+                signinForm.classList.add('active');
+                indicator.style.transform = 'translateX(0)';
+            }
+        }
+
+        // Tab button clicks
+        document.getElementById('signinTab').addEventListener('click', () => switchTab('signin'));
+        document.getElementById('signupTab').addEventListener('click', () => switchTab('signup'));
+
+        // Toggle password visibility
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+
+        // Auto-switch to signup tab if redirected with ?tab=signup
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('tab') === 'signup') {
+            switchTab('signup');
+        }
+
+        // Auto-dismiss flash messages after 5 seconds
+        document.querySelectorAll('.flash-message').forEach(msg => {
+            setTimeout(() => {
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateY(-10px)';
+                setTimeout(() => msg.remove(), 300);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
