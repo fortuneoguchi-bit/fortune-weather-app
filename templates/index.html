@@ -58,6 +58,20 @@
     </script>
 </head>
 <body>
+    <!-- User Bar -->
+    <div class="user-bar">
+        <div class="user-bar-inner">
+            <div class="user-greeting">
+                <span class="user-avatar">👤</span>
+                <span>Welcome, <strong>{{ user_name }}</strong></span>
+            </div>
+            <a href="/auth/logout" class="logout-btn">
+                <span>Logout</span>
+                <span class="logout-icon">🚪</span>
+            </a>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1>🌦️ Fortune Weather App</h1>
